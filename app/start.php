@@ -33,7 +33,7 @@ $app->error(function (\Exception $e, $code) use($app) {
 $app->before(function (Request $request) {
     if (strpos($request->headers->get('Accept'), 'application/json') === 0) {
         $data = json_decode($request->getContent(), true);
-        $request->request->replace(is_array($data) ? $data : array());
+        $request->request->replace(is_array($data) ? $data : []);
     }
 });
 

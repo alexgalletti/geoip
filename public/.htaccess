@@ -17,4 +17,4 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
-RedirectMatch 404 /(\.git|\.idea|\.gitignore|.editorconfig|\.htaccess|_ide_helper\.php|artisan|app/.*|.+\.sublime-.*|composer\.(phar|lock|json)|Gruntfile\.js|package\.json|readme\.m.*|server\.php|\.laravel_env)
+RedirectMatch 404 /((\.(git|idea|gitignore|editorconfig|htaccess|artisan|laravel_env))|(.*\.sublime-|app/).*|composer\.(phar|lock|json)|(package|bower)\.json|(Grunt|gulp)file\.js|readme\.m.*|(_ide_helper|server)\.php)
