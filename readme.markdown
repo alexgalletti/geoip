@@ -1,2 +1,2 @@
-### Skeleton
-This project is a starting point for projects that require a basic php structure. Usually for smaller projects only.
+### Geo IP
+Geolocation by IP system using maxmind open source geolite 2 database.
