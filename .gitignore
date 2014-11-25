@@ -16,3 +16,4 @@ _ide_helper.php
 sftp-config.json
 .DS_Store
 app/storage/debug.log
+app/storage/database.mmdb
