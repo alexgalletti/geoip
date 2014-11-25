@@ -6,7 +6,7 @@ use Guzzle\Http\Client;
 
 $app->match('api/1/lookup/{ip}', function (Application $app) {
 
-    $ip = $app['request']->get('ip', false);
+    $ip = $app['request']->get('ip') ?: $app['request']->getClientIp();
 
     if (!file_exists($app['maxmind_database']) || filemtime($app['maxmind_database']) < time()-2592000) {
         $temp = __DIR__.'/storage/database.mmdb.gz';
@@ -14,7 +14,7 @@ $app->match('api/1/lookup/{ip}', function (Application $app) {
             $client = new Client();
             $response = $client->get($app['maxmind_download'])->setResponseBody($temp)->send();
         } catch (Exception $e) {
-            return $app->json(['results' => false, 'error' => 'Error downloading geolite database.']);
+            return $app->json(['ip' => $ip, 'results' => false, 'error' => 'Error downloading geolite database.']);
         }
 
         $file = gzopen($temp, 'rb');
@@ -36,12 +36,12 @@ $app->match('api/1/lookup/{ip}', function (Application $app) {
 
         $reader->close();
     } catch (Exception $e) {
-        return $app->json(['results' => false, 'error' => 'Invalid IP address specified.']);
+        return $app->json(['ip' => $ip, 'results' => false, 'error' => 'Invalid IP address specified.']);
     }
 
     if (empty($results)) {
-        return $app->json(['results' => false, 'error' => 'There is no data for the specified location.']);
+        return $app->json(['ip' => $ip, 'results' => false, 'error' => 'There is no data for the specified location.']);
     }
 
-    return $app->json(compact('results'));
+    return $app->json(compact('ip', 'results'));
 })->value('ip', false);
