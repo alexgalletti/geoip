@@ -2,24 +2,25 @@
 Geolocation by IP system using maxmind open source geolite 2 database.
 
 ### API Usage
-
+---
 Current API Version: **1**
 
 There are multiple methods to lookup an IP address. You may use GET or POST methods to lookup an IP. If no IP is specified the clients IP will be used.
 
 #### URL explanation
-
+---
 `/api/{version}/{endpoint}/{parameter}`
 
 #### Standard lookup
-
+---
 `/api/1/lookup/{ip_address}`
 
 #### Parameterized lookup:
-
+---
 `/api/1/lookup?ip={ip_address}`
 
 #### Sample success response:
+---
 ```json
 {
     "ip": "74.92.188.245",
@@ -71,6 +72,7 @@ There are multiple methods to lookup an IP address. You may use GET or POST meth
 ```
 
 #### Sample failure response:
+---
 ```json
 {
     "error": "There is no data for the specified location.",
