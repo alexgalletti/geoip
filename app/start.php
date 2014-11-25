@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 $app = new Application(require_once(__DIR__.'/config.php'));
 
+$app->error(function (\Exception $e, $code) use($app) {
+    return $app->json(['result' => false, 'error' => $e->getMessage()], $code);
+});
+
 $app->register(new SessionServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new TranslationServiceProvider(), array(
