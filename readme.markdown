@@ -1,27 +1,35 @@
-### Geo IP
-Geolocation by IP system using maxmind open source geolite 2 database.
+## Geo IP
+Geolocation by IP  using maxmind's open source geolite 2 database.
 
-### API Usage
+### Documentation
 ---
 Current API Version: **1**
 
-Current Host/Example: http://geo-ip.bluechipdigital.com/api/1/lookup
+Current Host: http://geo-ip.bluechipdigital.com/
 
-There are multiple methods to lookup an IP address. You may use GET or POST methods to lookup an IP. If no IP is specified the clients IP will be used.
+There are multiple methods to lookup an IP address. You may use `GET` or `POST` methods to lookup an IP. If no IP is specified the clients IP will be used.
 
-#### URL explanation
+#### Status Codes
+---
+| Status Code | Description                                                            |
+|-------------|------------------------------------------------------------------------|
+| 500         | There is an error with the database or server, please try again later. |
+| 400         | Invalid IP address specified.                                          |
+| 404         | There is no location data for the specified IP.                        |
+
+#### URL Explanation
 ---
 `/api/{version}/{endpoint}/{parameter}`
 
-#### Standard lookup
+#### Standard Lookup
 ---
 `/api/1/lookup/{ip_address}`
 
-#### Parameterized lookup:
+#### Parameterized Lookup:
 ---
 `/api/1/lookup?ip={ip_address}`
 
-#### Sample success response:
+#### Sample Response:
 ---
 ```json
 {
@@ -73,12 +81,7 @@ There are multiple methods to lookup an IP address. You may use GET or POST meth
 }
 ```
 
-#### Sample failure response:
+#### Get Database Metadata:
 ---
-```json
-{
-    "error": "There is no data for the specified location.",
-    "ip": "192.168.1.1",
-    "results": false
-}
-```
+`/api/1/metadata`
+
