@@ -8,8 +8,9 @@ $app->match('api/1/lookup/{ip}', function (Application $app) {
 
     $ip = $app['request']->get('ip') ?: $app['request']->getClientIp();
 
-    if (!file_exists($app['maxmind_database']) || filemtime($app['maxmind_database']) < time()-2592000) {
-        $temp = __DIR__.'/storage/database.mmdb.gz';
+    $temp = __DIR__.'/storage/database.mmdb.gz';
+
+    if (!file_exists($temp) && (!file_exists($app['maxmind_database']) || filemtime($app['maxmind_database']) < time()-2592000)) {
         try {
             $response = (new Client())->get($app['maxmind_download'])->setResponseBody($temp)->send();
         } catch (Exception $e) {
