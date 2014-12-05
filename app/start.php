@@ -3,41 +3,41 @@
 use Silex\Application;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
-use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\SwiftmailerServiceProvider;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
-$app = new Application(require_once(__DIR__.'/config.php'));
-
-$app->error(function (\Exception $e, $code) use($app) {
-    return $app->json(['result' => false, 'error' => $e->getMessage()], $code);
-});
+$app = new Application(require(__DIR__.'/config.php'));
 
 $app->register(new SessionServiceProvider());
 $app->register(new ValidatorServiceProvider());
-$app->register(new TranslationServiceProvider(), array(
-    'locale_fallbacks' => array('en'),
-));
-$app->register(new TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/views',
-));
-$app->register(new MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__.'/storage/debug.log',
-));
+$app->register(new SwiftmailerServiceProvider());
+$app->register(new TwigServiceProvider(), [
+    'twig.path' => __DIR__.'/views'
+]);
+$app->register(new MonologServiceProvider(), [
+    'monolog.logfile' => __DIR__.'/storage/debug.log'
+]);
 
-$app->before(function () use ($app) {
-    $app['translator']->setLocale($app['request']->get('locale'));
+$app->error(function (\Exception $e, $code) use($app) {
+    if ($app['request']->isXmlHttpRequest() || strpos($app['request']->headers->get('Accept'), 'application/json') === 0) {
+        return $app->json(['error' => $e->getMessage()], $code);
+    }
+
+    return null;
 });
 
-if (array_key_exists('mysql', $app)) {
-    $app['db'] = DB::instance($app['mysql']);
-}
+$app->before(function (Request $request) {
+    if (strpos($request->headers->get('Accept'), 'application/json') === 0) {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace(is_array($data) ? $data : array());
+    }
+});
 
-require_once __DIR__.'/language.php';
-require_once __DIR__.'/helpers.php';
-require_once __DIR__.'/routes.php';
+require(__DIR__.'/routes.php');
 
-$app->run();
+return $app;
