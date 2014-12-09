@@ -12,6 +12,7 @@
         "symfony/twig-bridge": "~2.3",
         "swiftmailer/swiftmailer": "5.*",
         "maxmind-db/reader": "~1.0",
+        "igorw/config-service-provider": "1.2.2"
         "guzzle/guzzle": "~3.9"
     },
     "require-dev": {
