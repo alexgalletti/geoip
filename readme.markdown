@@ -5,8 +5,6 @@ Geolocation by IP  using maxmind's open source geolite 2 database.
 ---
 Current API Version: **1**
 
-Current Host: http://geo-ip.bluechipdigital.com/
-
 There are multiple methods to lookup an IP address. You may use `GET` or `POST` methods to lookup an IP. If no IP is specified the clients IP will be used.
 
 #### Status Codes
