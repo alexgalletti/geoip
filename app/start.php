@@ -12,6 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+try {
+    Dotenv::load(dirname(__DIR__));
+} catch (Exception $e) {
+    // Ignore missing .env files
+}
+
 $app = new Application();
 
 $app->register(new SessionServiceProvider());

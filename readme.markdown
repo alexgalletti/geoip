@@ -1,9 +1,13 @@
 ## Geo IP
 Geolocation by IP  using maxmind's open source geolite 2 database.
 
+### Package Installation
+---
+Run: `composer install -vvv`
+
 ### Documentation
 ---
-Current API Version: **1**
+Current API Version: **2**
 
 There are multiple methods to lookup an IP address. You may use `GET` or `POST` methods to lookup an IP. If no IP is specified the clients IP will be used.
 
@@ -21,11 +25,11 @@ There are multiple methods to lookup an IP address. You may use `GET` or `POST` 
 
 #### Standard Lookup
 ---
-`/api/1/lookup/{ip_address}`
+`/api/2/lookup/{ip_address}`
 
 #### Parameterized Lookup:
 ---
-`/api/1/lookup?ip={ip_address}`
+`/api/2/lookup?ip={ip_address}`
 
 #### Sample Response:
 ---
@@ -81,5 +85,12 @@ There are multiple methods to lookup an IP address. You may use `GET` or `POST` 
 
 #### Get Database Metadata:
 ---
+> Deprecated: This method is no longer available v2 of the API.
 `/api/1/metadata`
 
+#### Change Log
+---
+**2015-03-13**
+* The `metadata` endpoint was deprecated
+* Database is now remote with caching
+* API update to v2

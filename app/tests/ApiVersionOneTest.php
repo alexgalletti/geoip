@@ -2,9 +2,11 @@
 
 use Silex\WebTestCase;
 
-define('SAMPLE_IP', '74.92.188.245');
+if (!defined('SAMPLE_IP')) {
+    define('SAMPLE_IP', '74.92.188.245');
+}
 
-class SimpleTest extends WebTestCase
+class ApiVersionOneTest extends WebTestCase
 {
     public function createApplication()
     {
