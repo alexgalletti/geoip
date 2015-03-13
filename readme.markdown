@@ -86,6 +86,7 @@ There are multiple methods to lookup an IP address. You may use `GET` or `POST` 
 #### Get Database Metadata:
 ---
 > Deprecated: This method is no longer available v2 of the API.
+
 `/api/1/metadata`
 
 #### Change Log
