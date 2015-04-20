@@ -1,6 +1,8 @@
 ## Geo IP
 Geolocation by IP  using maxmind's open source geolite 2 database.
 
+**Check out the Lumen branch for a newer version of this repo**
+
 ### Package Installation
 ---
 Run: `composer install -vvv`
