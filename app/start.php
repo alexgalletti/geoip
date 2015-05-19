@@ -43,6 +43,10 @@ $app->before(function (Request $request) {
     }
 });
 
+$app->after(function (Request $request, Response $response) {
+    $response->headers->set('Access-Control-Allow-Origin', '*');
+});
+
 require(__DIR__.'/routes.php');
 
 return $app;
