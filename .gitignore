@@ -1,11 +1,10 @@
-vendor
-.sass-cache
-.idea/workspace.xml
+/lumen.log
+/vendor
 node_modules
 *.sublime-*
 .sublime-grunt-cache
 *.psd
-.env*
+.env
 !composer.lock
 composer.phar
 error_log

@@ -8,13 +8,8 @@
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
-    # Disable Front Controller for assets dir...
-    RewriteRule ^assets($|/) - [L]
-
     # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
-
-RedirectMatch 404 /((\.(git|idea|gitignore|editorconfig|htaccess|artisan|laravel_env))|(.*\.sublime-|app/).*|composer\.(phar|lock|json)|(package|bower)\.json|(Grunt|gulp)file\.js|readme\.m.*|(_ide_helper|server)\.php)

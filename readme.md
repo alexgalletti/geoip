@@ -1,5 +1,5 @@
 ## Geo IP
-Geolocation by IP  using maxmind's open source geolite 2 database.
+Geolocation by IP  using maxmind's open source geolite 2 database. **Now using [Lumen](https://github.com/laravel/lumen)**
 
 **Check out the Lumen branch for a newer version of this repo**
 
