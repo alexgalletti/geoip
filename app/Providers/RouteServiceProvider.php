@@ -20,13 +20,14 @@ class RouteServiceProvider extends ServiceProvider
                 'App\Http\Middleware\Secure',
             ]
         ], function ($router) {
-            // Deprecated routes
+            // API Version 1 - Deprecated
             $router->get('api/1/lookup{ip:.*}', 'App\Http\Controllers\API\v1\Lookup@show');
             $router->get('api/1/metadata', 'App\Http\Controllers\API\v1\Lookup@metadata');
-
             $router->get('api/v1/lookup{ip:.*}', 'App\Http\Controllers\API\v1\Lookup@show');
             $router->get('api/v1/metadata', 'App\Http\Controllers\API\v1\Lookup@metadata');
 
+            // API Version 2 - Current
+            $router->get('api/2/lookup{ip:.*}', 'App\Http\Controllers\API\v2\Lookup@show');
             $router->get('api/v2/lookup{ip:.*}', 'App\Http\Controllers\API\v2\Lookup@show');
         });
     }
