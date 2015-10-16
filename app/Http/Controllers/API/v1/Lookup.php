@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers\API\v1;
+<?php
+
+namespace App\Http\Controllers\API\v1;
 
 use MaxMind\Db\Reader;
 use GeoIp2\WebService\Client as GeoIp2;

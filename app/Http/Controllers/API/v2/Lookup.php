@@ -1,9 +1,12 @@
-<?php namespace App\Http\Controllers\API\v2;
+<?php
 
-use MaxMind\Db\Reader;
-use GeoIp2\WebService\Client as GeoIp2;
+namespace App\Http\Controllers\API\v2;
+
 use App\Http\Controllers\Controller;
+use GeoIp2\WebService\Client as GeoIp2;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use MaxMind\Db\Reader;
 
 class Lookup extends Controller
 {
@@ -11,33 +14,17 @@ class Lookup extends Controller
     {
         $ip = $request->input('ip', trim($ip, '/')) ?: $request->getClientIp();
 
-        $cache = config('maxmind.cache');
+        $key = sprintf('ip.%s', $ip);
 
-        if (!file_exists($cache) || (filemtime($cache) < time()-2592000)) {
-            if (file_exists($cache)) {
-                unlink($cache);
-            }
-
-            try {
-                touch($cache);
-                file_put_contents($cache, json_encode([], JSON_PRETTY_PRINT), LOCK_EX);
-            } catch (Exception $e) {
-                return response()->json(['ip' => $ip, 'results' => false, 'error' => 'There is an error with the database or server, please try again later.', 'details' => $e->getMessage()], 500);
-            }
-        }
+        Cache::get('foo');
 
         $results = [];
 
         $reader = new GeoIp2(config('maxmind.user_id'), config('maxmind.license_key'));
 
         if (!empty($ip)) {
-            $cache_data = json_decode(file_get_contents($cache), true);
 
-            if (is_null($cache_data) || (json_last_error() !== JSON_ERROR_NONE)) {
-                return response()->json(['ip' => $ip, 'results' => false, 'error' => 'There was an error loading the cache, please try again later.', 'details' => $e->getMessage()], 500);
-            }
-
-            if (!array_key_exists($ip, $cache_data)) {
+            if (!Cache::has($key)) {
                 try {
                     $results = json_decode(json_encode($reader->city($ip)), true);
                     unset($results['maxmind']);
@@ -45,10 +32,9 @@ class Lookup extends Controller
                     $results = $e->getMessage();
                 }
 
-                $cache_data[$ip] = $results;
-                file_put_contents($cache, json_encode($cache_data, JSON_PRETTY_PRINT), LOCK_EX);
+                Cache::put($key, $results, 43800);
             } else {
-                $results = $cache_data[$ip];
+                $results = Cache::get($key);
             }
         }
 
