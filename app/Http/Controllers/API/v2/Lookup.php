@@ -16,8 +16,6 @@ class Lookup extends Controller
 
         $key = sprintf('ip.%s', $ip);
 
-        Cache::get('foo');
-
         $results = [];
 
         $reader = new GeoIp2(config('maxmind.user_id'), config('maxmind.license_key'));
